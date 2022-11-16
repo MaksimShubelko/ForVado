@@ -4,6 +4,8 @@ public class Main {
     private static final double MIN_RANGE = -5;
     private static final double MAX_RANGE = 5;
     private static final double EPS = 0.0001;
+    private double sqr;
+    private double lamda;
 
     /**
      * Метод находит начальное значение для х.
@@ -16,10 +18,20 @@ public class Main {
      * @return начальное значение для х для итерации
      */
     public static double searchX(double minRange, double maxRange, double x) {
-        double a = Function.getDerivative(minRange);
-        double b = Function.getDerivative(maxRange);
-        double c = Function.getDerivative(x);
-        return a >= b && a >= c ? minRange : b >= a && b >= c ? maxRange : x;
+        double result;
+        double a = getDerivative(minRange);
+        double b = getDerivative(maxRange);
+        double c = getDerivative(x);
+        if (a > b && a > c) {
+            result = minRange;
+        } else {
+            if (b > a && b > c) {
+                result = maxRange;
+            } else {
+                result = x;
+            }
+        }
+        return result;
     }
 
     /**
@@ -30,7 +42,7 @@ public class Main {
      * @return лямбду
      */
     public static double getLambda(double x) {
-        return 1. / (Function.getDerivative(x));
+        return 1. / (getDerivative(x));
     }
 
     /**
@@ -48,10 +60,10 @@ public class Main {
         System.out.printf("%s %8s %15s\n", "Iterations", "x", "f(x)");
         do {
             x0 = x;
-            x = x - lambda * Function.getValue(x);
-            fx = Function.getValue(x);
+            x = x - lambda * getValue(x);
+            fx = getValue(x);
             System.out.printf("%5d %15.8f %15.8f\n", ++count, x0, fx);
-        } while (Math.abs(x - x0) >= eps);
+        } while (Math.abs(x - x0) > eps);
         return x0;
     }
 
@@ -70,5 +82,13 @@ public class Main {
 
         double result = function(lambda, x, EPS);
         System.out.printf("\nAnswer:\n   x = %.8f;", result);
+    }
+
+    public static double getValue(double x) {
+        return Math.exp(x) - 10 * x;
+    }
+
+    public static double getDerivative(double x) {
+        return Math.exp(x) - 10;
     }
 }
