@@ -16,7 +16,7 @@ public class Main {
         int[] resultArray = new int[secondArrayB.length];
 
         for (int value : secondArrayB) {
-            if (isElementExist(value, firstArrayA)) {
+            if (!isElementExist(value, firstArrayA)) {
                 resultArray[position] = value;
                 position++;
             }
