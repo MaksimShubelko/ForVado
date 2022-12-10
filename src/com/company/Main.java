@@ -1,46 +1,47 @@
 package com.company;
 
 public class Main {
-    private static final double MIN_RANGE = -5;
-    private static final double MAX_RANGE = 5;
-    private static final double EPS = 0.0001;
 
     public static void main(String[] args) {
+        int[] firstArrayA = new int[]{5, 6, 7, 8, 11, 8, 5, 7, 2};
+        int[] secondArrayB = new int[]{50, 6, 70, 80, 11, 80, 50, 70, 20};
 
-        double x = 0;
-        System.out.println("Function\n   e^x - 10x = 0");
-        System.out.printf("Segment: [%.2f, %.2f];\n", MIN_RANGE, MAX_RANGE);
-        System.out.printf(" Intermediate root: %.2f\n\n", x);
+        int[] resultArray = getDifference(firstArrayA, secondArrayB);
 
-        double result;
-        double a = Math.exp(MIN_RANGE) - 10;
-        double b = Math.exp(MAX_RANGE) - 10;
-        double c = Math.exp(x) - 10;
-        if (a > b && a > c) {
-            x = MIN_RANGE;
-        } else {
-            if (b > a && b > c) {
-                x = MAX_RANGE;
+        printArrayIntoConsole(resultArray);
+    }
+
+    private static int[] getDifference(int[] firstArrayA, int[] secondArrayB) {
+        int position = 0;
+        int[] resultArray = new int[secondArrayB.length];
+
+        for (int value : secondArrayB) {
+            if (isElementExist(value, firstArrayA)) {
+                resultArray[position] = value;
+                position++;
             }
         }
 
-        double lambda = 1. / (Math.exp(x) - 10);
-        System.out.printf("Initial x for iterations: %.2f;\n", x);
-        System.out.printf("Lambda: %.5f;\n\n", lambda);
-
-        double x0;
-        double fx;
-        int count = 0;
-        System.out.printf("%s %8s %15s\n", "Iterations", "x", "f(x)");
-        do {
-            x0 = x;
-            x = x - lambda * (Math.exp(x) - 10 * x);
-            fx = Math.exp(x) - 10 * x;
-            System.out.printf("%5d %15.8f %15.8f\n", ++count, x0, fx);
-        } while (Math.abs(x - x0) > EPS);
-
-        result = x0;
-        System.out.printf("\nAnswer:\n   x = %.8f;", result);
+        return resultArray;
     }
 
+    private static boolean isElementExist(int element, int[] array) {
+
+        for (int value : array) {
+            if (element == value)
+                return true;
+
+        }
+
+        return false;
+
+    }
+
+    private static void printArrayIntoConsole(int[] array) {
+
+        for (int value : array) {
+            if (value != 0)
+                System.out.print(value + " ");
+        }
+    }
 }
