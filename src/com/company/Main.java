@@ -1,47 +1,47 @@
 package com.company;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
 
+    private static Set<Character> setWhiteSpace = new HashSet<>(Set.of(' '));
+    private static int i, j;
+    private static boolean isSpace;
+
+
     public static void main(String[] args) {
-        int[] firstArrayA = new int[]{5, 6, 7, 8, 11, 8, 5, 7, 2};
-        int[] secondArrayB = new int[]{50, 6, 70, 80, 11, 80, 50, 70, 20};
+        System.out.println(deleteWhiteSpacesFromLine("d   d     f     s    a"));
 
-        int[] resultArray = getDifference(firstArrayA, secondArrayB);
-
-        printArrayIntoConsole(resultArray);
     }
 
-    private static int[] getDifference(int[] firstArrayA, int[] secondArrayB) {
-        int position = 0;
-        int[] resultArray = new int[secondArrayB.length];
+    public static String deleteWhiteSpacesFromLine(String line) {
+        j = line.length();
 
-        for (int value : secondArrayB) {
-            if (!isElementExist(value, firstArrayA)) {
-                resultArray[position] = value;
-                position++;
+        while (i < j) {
+            if (setWhiteSpace.contains(line.charAt(i))) {
+                if (!isSpace) {
+                    isSpace = true;
+                    i++;
+                } else {
+                    line = deleteCharAtFromString(line, i);
+                    j = line.length();
+                }
+            } else {
+                if (!setWhiteSpace.contains(line.charAt(i))) {
+                    isSpace = false;
+                    i++;
+                }
             }
         }
 
-        return resultArray;
-    }
-
-    private static boolean isElementExist(int element, int[] array) {
-
-        for (int value : array) {
-            if (element == value)
-                return true;
-
-        }
-
-        return false;
+        return line;
 
     }
 
-    private static void printArrayIntoConsole(int[] array) {
-
-        for (int value : array) {
-            if (value != 0)
-                System.out.print(value + " ");
-        }
+    public static String deleteCharAtFromString(String line, int position) {
+        return line.substring(0, position) + line.substring(position + 1);
     }
+
+
 }
